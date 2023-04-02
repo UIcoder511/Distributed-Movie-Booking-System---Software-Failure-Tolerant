@@ -1,0 +1,18 @@
+Mar 07, 2023 10:06:50 PM client.Client showCustomerMainMenu
+INFO: {reqType='getBookingSchedule', reqParameters=[customerID : ATWC2222'], message='Success', res='Customer has not booked any tickets yet'}
+Mar 07, 2023 10:07:05 PM client.Client showCustomerMainMenu
+INFO: {reqType='bookMovieTickets', reqParameters=[customerID : ATWC2222, movieName : Avatar, movieID : ATWM080323, numberOfTickets : 5'], message='Function Call', res=''}
+Mar 07, 2023 10:07:05 PM client.Client showCustomerMainMenu
+INFO: {reqType='bookMovieTickets', reqParameters=[customerID : ATWC2222, movieName : Avatar, movieID : ATWM080323, numberOfTickets : 5'], message='Success', res='Booking successful'}
+Mar 07, 2023 10:07:09 PM client.Client showCustomerMainMenu
+INFO: {reqType='getBookingSchedule', reqParameters=[customerID : ATWC2222'], message='Success', res='[Booking{movieName='Avatar', capacity=5, movieID='ATWM080323'}]'}
+Mar 07, 2023 10:07:42 PM client.Client showCustomerMainMenu
+INFO: {reqType='exchangeTickets', reqParameters=[customerID : ATWC2222, oldMovieName : Avengers, oldMovieID : ATWM111111, newMovieName : Avatar, newMovieID : ATWM111111, numberOfTickets : 1'], message='Function Call', res=''}
+Mar 07, 2023 10:07:42 PM client.Client showCustomerMainMenu
+SEVERE: {reqType='exchangeTickets', reqParameters=[customerID : ATWC2222, oldMovieName : Avengers, oldMovieID : ATWM111111, newMovieName : Avatar, newMovieID : ATWM111111, numberOfTickets : 1'], message='Error', res='The customer does not have the ATWM111111 slot booked'}
+Mar 07, 2023 10:08:24 PM client.Client showCustomerMainMenu
+INFO: {reqType='exchangeTickets', reqParameters=[customerID : ATWC2222, oldMovieName : Avatar, oldMovieID : ATWM080323, newMovieName : Avengers, newMovieID : ATWA100323, numberOfTickets : 2'], message='Function Call', res=''}
+Mar 07, 2023 10:08:24 PM client.Client showCustomerMainMenu
+INFO: {reqType='exchangeTickets', reqParameters=[customerID : ATWC2222, oldMovieName : Avatar, oldMovieID : ATWM080323, newMovieName : Avengers, newMovieID : ATWA100323, numberOfTickets : 2'], message='Success', res='successfully exchanged tickets'}
+Mar 07, 2023 10:08:28 PM client.Client showCustomerMainMenu
+INFO: {reqType='getBookingSchedule', reqParameters=[customerID : ATWC2222'], message='Success', res='[Booking{movieName='Avengers', capacity=2, movieID='ATWA100323'}, Booking{movieName='Avatar', capacity=3, movieID='ATWM080323'}]'}

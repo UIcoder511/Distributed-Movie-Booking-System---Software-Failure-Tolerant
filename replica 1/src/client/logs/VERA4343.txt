@@ -1,0 +1,6 @@
+Mar 06, 2023 6:07:58 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Titanic, movieID : VERA080323, bookingCapacity : 10'], message='Function Call', res=''}
+Mar 06, 2023 6:07:58 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Titanic, movieID : VERA080323, bookingCapacity : 10'], message='Success', res='Movie slot(s) added'}
+Mar 06, 2023 6:08:36 PM client.Client showAdminMainMenu
+INFO: {reqType='listMovieShowsAvailability', reqParameters=[movieName : Titanic'], message='Success', res='Titanic:VERA080323 10,OUTE150223 55,OUTE160223 45'}
