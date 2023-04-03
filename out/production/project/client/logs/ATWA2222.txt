@@ -1,0 +1,12 @@
+Mar 06, 2023 9:59:54 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Avatar, movieID : ATWM070323, bookingCapacity : 10'], message='Function Call', res=''}
+Mar 06, 2023 9:59:54 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Avatar, movieID : ATWM070323, bookingCapacity : 10'], message='Success', res='Movie slot(s) added'}
+Mar 06, 2023 10:00:04 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Avatar, movieID : ATWE040333, bookingCapacity : 1'], message='Function Call', res=''}
+Mar 06, 2023 10:00:04 PM client.Client showAdminMainMenu
+SEVERE: {reqType='addMovieSlots', reqParameters=[movieName : Avatar, movieID : ATWE040333, bookingCapacity : 1'], message='Error', res='Cannot add the movie slot after the week'}
+Mar 06, 2023 10:00:22 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Avengers, movieID : ATWM070323, bookingCapacity : 20'], message='Function Call', res=''}
+Mar 06, 2023 10:00:22 PM client.Client showAdminMainMenu
+INFO: {reqType='addMovieSlots', reqParameters=[movieName : Avengers, movieID : ATWM070323, bookingCapacity : 20'], message='Success', res='Movie slot(s) added'}

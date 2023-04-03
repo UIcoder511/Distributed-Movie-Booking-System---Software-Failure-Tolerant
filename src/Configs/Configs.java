@@ -1,10 +1,10 @@
-package src;
+package configs;
 
 public class Configs {
 
   public static final String sequencerIP = "192.168.0.22";
   public static final int sequencerPort = 1333;
-  public static String FE_IP_Address = "192.168.0.11";
+  public static String FE_IP_Address = "172.30.89.216";
   public static final int FE_PORT = 1999;
   public static final int FE_SQ_PORT = 1414;
   public static final String RM_Multicast_group_address = "230.1.1.10";

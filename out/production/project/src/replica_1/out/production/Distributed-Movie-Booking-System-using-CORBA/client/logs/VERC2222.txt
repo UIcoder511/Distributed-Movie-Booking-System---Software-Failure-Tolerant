@@ -1,0 +1,4 @@
+Feb 23, 2023 2:26:53 PM client.Client showCustomerMainMenu
+INFO: {reqType='bookMovieTickets', reqParameters=[customerID : VERC2222, movieName : Avatar, movieID : ATWM240223, numberOfTickets : 2'], message='Function Call', res=''}
+Feb 23, 2023 2:26:53 PM client.Client showCustomerMainMenu
+SEVERE: {reqType='bookMovieTickets', reqParameters=[customerID : VERC2222, movieName : Avatar, movieID : ATWM240223, numberOfTickets : 2'], message='Error', res='Avatar is not avaialble in the current theatre.'}

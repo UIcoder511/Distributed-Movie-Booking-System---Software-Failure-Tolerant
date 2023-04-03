@@ -1,5 +1,7 @@
 package frontend;
-// import Configs;
+ import configs.Configs;
+
+//import src.Configs;
 
 public class Request {
 
@@ -12,7 +14,7 @@ public class Request {
   private String newMovieName = "null";
   private String movieID = "null";
   private String movieName = "null";
-  private String FeIpAddress = ;
+  private String FeIpAddress = Configs.FE_IP_Address;
   private int bookingCapacity = 0;
   private int sequenceNumber = 0;
   private String MessageType = "00";

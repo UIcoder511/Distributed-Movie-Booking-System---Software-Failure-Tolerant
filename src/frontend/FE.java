@@ -1,18 +1,21 @@
-package src.frontend;
+package frontend;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import frontend.DMS_CORBA.ServerObjectInterface;
+import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
+import configs.Configs;
 
-import  src.Configs;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.util.Properties;
 
 public class FE {
 
@@ -30,33 +33,53 @@ public class FE {
     try {
       FEInterface inter = new FEInterface() {
         @Override
-        public void informRmHasBug(int RmNumber) {
-          //                    String errorMessage = new MyRequest(RmNumber, "1").toString();
-          MyRequest errorMessage = new MyRequest(RmNumber, "1");
-          System.out.println("Rm:" + RmNumber + "has bug");
-          //                    sendMulticastFaultMessageToRms(errorMessage);
-          sendUnicastToSequencer(errorMessage);
+        public void informSoftwareFailureIn(int RmNumber) {
+
         }
 
         @Override
-        public void informRmIsDown(int RmNumber) {
-          //                    String errorMessage = new MyRequest(RmNumber, "2").toString();
-          MyRequest errorMessage = new MyRequest(RmNumber, "2");
-          System.out.println("Rm:" + RmNumber + "is down");
-          //                    sendMulticastFaultMessageToRms(errorMessage);
-          sendUnicastToSequencer(errorMessage);
+        public void InformReplicaDown(int RmNumber) {
+
         }
 
         @Override
-        public int sendRequestToSequencer(MyRequest myRequest) {
-          return sendUnicastToSequencer(myRequest);
+        public int sendRequestToSequencer(Request request) {
+          return 0;
         }
 
         @Override
-        public void retryRequest(MyRequest myRequest) {
-          System.out.println("No response from all Rms, Retrying request...");
-          sendUnicastToSequencer(myRequest);
+        public void retryRequest(Request request) {
+
         }
+
+//        @Override
+//        public void informRmHasBug(int RmNumber) {
+//          //                    String errorMessage = new MyRequest(RmNumber, "1").toString();
+//          MyRequest errorMessage = new MyRequest(RmNumber, "1");
+//          System.out.println("Rm:" + RmNumber + "has bug");
+//          //                    sendMulticastFaultMessageToRms(errorMessage);
+//          sendUnicastToSequencer(errorMessage);
+//        }
+//
+//        @Override
+//        public void informRmIsDown(int RmNumber) {
+//          //                    String errorMessage = new MyRequest(RmNumber, "2").toString();
+//          MyRequest errorMessage = new MyRequest(RmNumber, "2");
+//          System.out.println("Rm:" + RmNumber + "is down");
+//          //                    sendMulticastFaultMessageToRms(errorMessage);
+//          sendUnicastToSequencer(errorMessage);
+//        }
+//
+//        @Override
+//        public int sendRequestToSequencer(MyRequest myRequest) {
+//          return sendUnicastToSequencer(myRequest);
+//        }
+//
+//        @Override
+//        public void retryRequest(MyRequest myRequest) {
+//          System.out.println("No response from all Rms, Retrying request...");
+//          sendUnicastToSequencer(myRequest);
+//        }
       };
       FrontEndImplementation servant = new FrontEndImplementation(inter);
       Runnable task = () -> {
@@ -66,7 +89,10 @@ public class FE {
       thread.start();
       // create and initialize the ORB //// get reference to rootpoa &amp; activate
       // the POAManager
-      ORB orb = ORB.init(args, null);
+      Properties props = new Properties();
+      props.put("org.omg.CORBA.ORBInitialPort", String.valueOf(FE_PORT));
+      props.put("org.omg.CORBA.ORBInitialHost", FE_IP_Address);
+      ORB orb = ORB.init(args, props);
       // -ORBInitialPort 1050 -ORBInitialHost localhost
       POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
       rootpoa.the_POAManager().activate();
@@ -76,6 +102,7 @@ public class FE {
 
       // get object reference from the servant
       org.omg.CORBA.Object ref = rootpoa.servant_to_reference(servant);
+      System.out.println(ref);
       ServerObjectInterface href = ServerObjectInterfaceHelper.narrow(ref);
 
       org.omg.CORBA.Object objRef = orb.resolve_initial_references(
@@ -104,7 +131,7 @@ public class FE {
 
   }
 
-  private static int sendUnicastToSequencer(MyRequest requestFromClient) {
+  private static int sendUnicastToSequencer(Request requestFromClient) {
     DatagramSocket aSocket = null;
     String dataFromClient = requestFromClient.toString();
     System.out.println("FE:sendUnicastToSequencer>>>" + dataFromClient);
@@ -173,17 +200,9 @@ public class FE {
   private static void listenForUDPResponses(FrontEndImplementation servant) {
     DatagramSocket aSocket = null;
     try {
-      //            aSocket = new MulticastSocket(1413);
-      //            InetAddress[] allAddresses = Inet4Address.getAllByName("SepJ-ROG");
+
       InetAddress desiredAddress = InetAddress.getByName(FE_IP_Address);
-      //            //In order to find the desired Ip to be routed by other modules (WiFi adapter)
-      //            for (InetAddress address :
-      //                    allAddresses) {
-      //                if (address.getHostAddress().startsWith("192.168.2")) {
-      //                    desiredAddress = address;
-      //                }
-      //            }
-      //            aSocket.joinGroup(InetAddress.getByName("230.1.1.5"));
+
       aSocket = new DatagramSocket(FE_PORT, desiredAddress);
       byte[] buffer = new byte[1000];
       System.out.println(
@@ -204,14 +223,11 @@ public class FE {
         )
           .trim();
         System.out.println("FE:Response received from Rm>>>" + sentence);
-        RmResponse rmResponse = new RmResponse(sentence);
-        //                String[] parts = sentence.split(";");
+        Response rmResponse = new Response(sentence);
 
         System.out.println("Adding response to FrontEndImplementation:");
         servant.addReceivedResponse(rmResponse);
-        //                DatagramPacket reply = new DatagramPacket(response.getData(), response.getLength(), response.getAddress(),
-        //                        response.getPort());
-        //                aSocket.send(reply);
+
       }
     } catch (SocketException e) {
       System.out.println("Socket: " + e.getMessage());

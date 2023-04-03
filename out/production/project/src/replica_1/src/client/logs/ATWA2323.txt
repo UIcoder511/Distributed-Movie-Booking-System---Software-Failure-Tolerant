@@ -1,0 +1,2 @@
+Mar 06, 2023 6:15:11 PM client.Client showAdminMainMenu
+INFO: {reqType='listMovieShowsAvailability', reqParameters=[movieName : Avatar'], message='Success', res='Avatar:OUTA150223 65,OUTE0100223 15,OUTE160223 85'}

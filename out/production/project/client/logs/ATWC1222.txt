@@ -1,0 +1,4 @@
+Feb 23, 2023 2:22:50 PM client.Client showCustomerMainMenu
+INFO: {reqType='bookMovieTickets', reqParameters=[customerID : ATWC1222, movieName : Avatar, movieID : VERM240223, numberOfTickets : 2'], message='Function Call', res=''}
+Feb 23, 2023 2:22:52 PM client.Client showCustomerMainMenu
+SEVERE: {reqType='bookMovieTickets', reqParameters=[customerID : ATWC1222, movieName : Avatar, movieID : VERM240223, numberOfTickets : 2'], message='Error', res='Server Exception : movie did not added!'}

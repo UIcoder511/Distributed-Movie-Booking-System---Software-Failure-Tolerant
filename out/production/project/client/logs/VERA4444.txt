@@ -1,0 +1,2 @@
+Mar 06, 2023 6:15:46 PM client.Client showAdminMainMenu
+INFO: {reqType='listMovieShowsAvailability', reqParameters=[movieName : Titanic'], message='Success', res='Titanic:VERE100323 10,OUTE150223 55,OUTE160223 45'}
