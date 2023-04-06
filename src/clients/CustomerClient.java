@@ -6,9 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-import util.Movie;
-import util.ServerEnum;
-import util.SlotEnum;
+import util.Enums.ServerEnum;
+import util.Enums.SlotEnum;
+import util.booking.Movie;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,9 +26,9 @@ public class CustomerClient {
 
     private static String PORT = "";
 
-    private static final String ATWATER_SERVER_PORT = "5000";
-    private static final String VERDUN_SERVER_PORT = "5001";
-    private static final String OUTREMONT_SERVER_PORT = "5002";
+//    private static final String ATWATER_SERVER_PORT = "5000";
+//    private static final String VERDUN_SERVER_PORT = "5001";
+//    private static final String OUTREMONT_SERVER_PORT = "5002";
 
     public static MovieTicketBooking.MovieTicketBookingInterface customer = null;
 
@@ -273,17 +273,17 @@ public class CustomerClient {
         try {
             tLocation = ServerEnum.getEnumNameForValue(userName.substring(0, 3)).toLowerCase();
 //            String portNum = "";
-            switch (tLocation) {
-                case "atwater":
-                    PORT = ATWATER_SERVER_PORT;
-                    break;
-                case "verdun":
-                    PORT = VERDUN_SERVER_PORT;
-                    break;
-                case "outremont":
-                    PORT = OUTREMONT_SERVER_PORT;
-                    break;
-            }
+//            switch (tLocation) {
+//                case "atwater":
+//                    PORT = ATWATER_SERVER_PORT;
+//                    break;
+//                case "verdun":
+//                    PORT = VERDUN_SERVER_PORT;
+//                    break;
+//                case "outremont":
+//                    PORT = OUTREMONT_SERVER_PORT;
+//                    break;
+//            }
 //            String registryURL = "rmi://" + HOSTNAME + ":" + PORT + "/" + tLocation + "/customer";
 //            customer = (MovieTicketBookingInterface) Naming.lookup(registryURL);
 

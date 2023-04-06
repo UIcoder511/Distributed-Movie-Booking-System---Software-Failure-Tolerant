@@ -1,4 +1,4 @@
-package util;
+package util.Enums;
 /** @Author: Raveena Choudhary, 40232370 **/
 
 public enum SlotEnum {

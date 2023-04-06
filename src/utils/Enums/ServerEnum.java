@@ -1,5 +1,5 @@
 /** @Author: Raveena Choudhary, 40232370 **/
-package util;
+package util.Enums;
 
 public enum ServerEnum {
 

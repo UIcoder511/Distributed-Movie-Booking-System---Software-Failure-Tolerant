@@ -7,10 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-//import servers.ServerEnum;
-import util.Movie;
-import util.ServerEnum;
-import util.SlotEnum;
+import util.Enums.ServerEnum;
+import util.Enums.SlotEnum;
+import util.booking.Movie;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -31,9 +30,9 @@ public class AdminClient {
 
     private static String PORT = "";
 
-    private static final String ATWATER_SERVER_PORT = "5000";
-    private static final String VERDUN_SERVER_PORT = "5001";
-    private static final String OUTREMONT_SERVER_PORT = "5002";
+//    private static final String ATWATER_SERVER_PORT = "5000";
+//    private static final String VERDUN_SERVER_PORT = "5001";
+//    private static final String OUTREMONT_SERVER_PORT = "5002";
 
 //    private static UserImplementation admin;
 
@@ -82,18 +81,18 @@ public class AdminClient {
         try
         {
             tLocation = ServerEnum.getEnumNameForValue(userName.substring(0,3)).toLowerCase();
-            switch(tLocation)
-            {
-                case "atwater":
-                    PORT=ATWATER_SERVER_PORT;
-                    break;
-                case "verdun":
-                    PORT=VERDUN_SERVER_PORT;
-                    break;
-                case "outremont":
-                    PORT=OUTREMONT_SERVER_PORT;
-                    break;
-            }
+//            switch(tLocation)
+//            {
+//                case "atwater":
+//                    PORT=ATWATER_SERVER_PORT;
+//                    break;
+//                case "verdun":
+//                    PORT=VERDUN_SERVER_PORT;
+//                    break;
+//                case "outremont":
+//                    PORT=OUTREMONT_SERVER_PORT;
+//                    break;
+//            }
 
             Properties props = new Properties();
             props.put("org.omg.CORBA.ORBInitialPort", "1999");
@@ -111,7 +110,7 @@ public class AdminClient {
             //System.out.println(ncRef.resolve_str("FrontEnd"));
             admin = MovieTicketBooking.MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
 
-            admin.setPortAndHost(HOSTNAME,PORT);
+            //admin.setPortAndHost(HOSTNAME,PORT);
             LOGGER.info(userName + "connection to server open...");
         }
         catch (Exception e) {
