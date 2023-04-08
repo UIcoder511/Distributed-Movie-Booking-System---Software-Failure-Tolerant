@@ -1,6 +1,4 @@
-/** @Author: Raveena Choudhary, 40232370 **/
-package utils;
-
+package Replica2.util.booking;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -28,9 +26,9 @@ public class BookingUtility {
 //            sunday = sunday.plusDays(1);
 //        }
 
-        Movie movie = null;
+        Replica1.util.booking.Movie movie = null;
         for(int i=0;i<=7;i++){
-            movie = new Movie(movieID);
+            movie = new Replica1.util.booking.Movie(movieID);
             movie.setDate(monday.plusDays(i).format(dateTimeFormatter));
             movieIds.add(movie.getMovieId());
         }
@@ -41,7 +39,7 @@ public class BookingUtility {
     public boolean validateMovieDateForPastWeek(String movieID)
     {
         dateTimeFormatter= DateTimeFormatter.ofPattern("ddMMyy");
-        Movie movie = new Movie(movieID);
+        Replica1.util.booking.Movie movie = new Replica1.util.booking.Movie(movieID);
         LocalDate movieDate  = LocalDate.parse(movie.getDate(),dateTimeFormatter);
         LocalDate today = LocalDate.now();
 

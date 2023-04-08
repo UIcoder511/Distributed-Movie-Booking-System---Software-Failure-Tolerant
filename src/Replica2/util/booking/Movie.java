@@ -1,4 +1,7 @@
-package utils;
+package Replica2.util.booking;
+
+import util.Enums.ServerEnum;
+import util.Enums.SlotEnum;
 
 public class Movie {
 	private String name;
