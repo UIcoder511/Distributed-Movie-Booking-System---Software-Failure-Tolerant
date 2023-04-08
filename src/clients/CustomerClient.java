@@ -1,14 +1,17 @@
 package clients;
 /** @Author: Raveena Choudhary, 40232370 **/
 
+import configs.Configs;
+import frontend.DMS_CORBA.ServerObjectInterface;
+import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-import util.Movie;
-import util.ServerEnum;
-import util.SlotEnum;
+import utils.Movie;
+import utils.ServerEnum;
+import utils.SlotEnum;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,21 +22,22 @@ public class CustomerClient {
     private static final Logger LOGGER = LogManager.getLogger("customer");
     private static String userName = null;
     private static String password = null;
-    private static final String HOSTNAME = "localhost";
+    private static final String HOSTNAME = Configs.FE_IP_Address;
 
     //threatre for customer
     private static String tLocation = "";
 
-    private static String PORT = "";
+    private static String PORT = String.valueOf(Configs.FE_PORT);
 
-    private static final String ATWATER_SERVER_PORT = "5000";
-    private static final String VERDUN_SERVER_PORT = "5001";
-    private static final String OUTREMONT_SERVER_PORT = "5002";
+//    private static final String ATWATER_SERVER_PORT = "5000";
+//    private static final String VERDUN_SERVER_PORT = "5001";
+//    private static final String OUTREMONT_SERVER_PORT = "5002";
 
-    public static MovieTicketBooking.MovieTicketBookingInterface customer = null;
+    public static ServerObjectInterface customer = null;
 
     //method displaying main menu
     private void displayMainMenu() {
+//        customer.ge
         System.out.println("What would you like to do today?");
         System.out.println("1: Book Movie Tickets");
         System.out.println("2: Get Booking schedule");
@@ -53,7 +57,7 @@ public class CustomerClient {
 //				System.out.println("Please enter movie theatre(Atwater, Verdun, Outremont): ");
 //				String movieThreatre = sc.nextLine().toUpperCase().trim();
                 System.out.println("Please choose movieName: ");
-                List<String> movieNames = getListFromCommaSeparatedString(customer.getAllMovieNames());
+                List<String> movieNames =null;// getListFromCommaSeparatedString(customer.getAllMovieNames());
                 Set<String> distinctMovieNamesSet = movieNames.stream().collect(Collectors.toSet());
                 List<String> distinctMovieNamesList = new ArrayList<String>(distinctMovieNamesSet);
 
@@ -67,7 +71,7 @@ public class CustomerClient {
                 String movieName = distinctMovieNamesList.get(index - 1);
                 System.out.println("Selected movie name: " + movieName);
                 System.out.println("Please choose movie theatre: ");
-                List<String> movieIDs = getListFromCommaSeparatedString(customer.getAllMovieIds(movieName));
+                List<String> movieIDs =null;// getListFromCommaSeparatedString(customer.getAllMovieIds(movieName));
 
                 // print distinct values for theatre
                 Set<String> distinctMovieIdsSet = movieIDs.stream().map(movieId -> ServerEnum.getEnumNameForValue(movieId.substring(0, 3))).collect(Collectors.toSet());
@@ -201,7 +205,7 @@ public class CustomerClient {
 
                     //todo create a single method
                     System.out.println("Please choose new movieName: ");
-                    List<String> movieNames = getListFromCommaSeparatedString(customer.getAllMovieNames());
+                    List<String> movieNames = null;// getListFromCommaSeparatedString(customer.getAllMovieNames());
                     Set<String> distinctMovieNamesSet = movieNames.stream().collect(Collectors.toSet());
                     List<String> distinctMovieNamesList = new ArrayList<String>(distinctMovieNamesSet);
 
@@ -215,7 +219,7 @@ public class CustomerClient {
                     String new_movieName = distinctMovieNamesList.get(indexForNewMovie - 1);
 
                     System.out.println("Please choose movie theatre: ");
-                    List<String> movieIDs = getListFromCommaSeparatedString(customer.getAllMovieIds(new_movieName));
+                    List<String> movieIDs =null;// getListFromCommaSeparatedString(customer.getAllMovieIds(new_movieName));
 
                     // print distinct values for theatre
                     Set<String> distinctMovieIdsSet = movieIDs.stream().map(movieId -> ServerEnum.getEnumNameForValue(movieId.substring(0, 3))).collect(Collectors.toSet());
@@ -273,23 +277,23 @@ public class CustomerClient {
         try {
             tLocation = ServerEnum.getEnumNameForValue(userName.substring(0, 3)).toLowerCase();
 //            String portNum = "";
-            switch (tLocation) {
-                case "atwater":
-                    PORT = ATWATER_SERVER_PORT;
-                    break;
-                case "verdun":
-                    PORT = VERDUN_SERVER_PORT;
-                    break;
-                case "outremont":
-                    PORT = OUTREMONT_SERVER_PORT;
-                    break;
-            }
+//            switch (tLocation) {
+//                case "atwater":
+//                    PORT = ATWATER_SERVER_PORT;
+//                    break;
+//                case "verdun":
+//                    PORT = VERDUN_SERVER_PORT;
+//                    break;
+//                case "outremont":
+//                    PORT = OUTREMONT_SERVER_PORT;
+//                    break;
+//            }
 //            String registryURL = "rmi://" + HOSTNAME + ":" + PORT + "/" + tLocation + "/customer";
 //            customer = (MovieTicketBookingInterface) Naming.lookup(registryURL);
 
             Properties props = new Properties();
-            props.put("org.omg.CORBA.ORBInitialPort", "1999");
-            props.put("org.omg.CORBA.ORBInitialHost", "localhost");
+            props.put("org.omg.CORBA.ORBInitialPort", PORT);
+            props.put("org.omg.CORBA.ORBInitialHost", HOSTNAME);
 
 //            String registryURL = "rmi://" + HOSTNAME+ ":" + PORT + "/" + tLocation +"/admin";
 //            admin = (MovieTicketBookingInterfaceRMI) Naming.lookup(registryURL);
@@ -299,7 +303,7 @@ public class CustomerClient {
                     orb.resolve_initial_references("NameService");
             NamingContextExt ncRef =
                     NamingContextExtHelper.narrow(objRef);
-            customer = MovieTicketBooking.MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
+            customer = ServerObjectInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
 
             LOGGER.info(userName + "connection to server open...");
 
@@ -322,9 +326,9 @@ public class CustomerClient {
 
         connectToServer(args);
 
-        if (userName.substring(3,4).equals("C") && customer.validateUser(userName, password)) {
-            System.out.println("Login Successfull!");
-            LOGGER.info(userName + "Login Success...");
+//        if (userName.substring(3,4).equals("C") && customer.validateUser(userName, password)) {
+//            System.out.println("Login Successfull!");
+//            LOGGER.info(userName + "Login Success...");
             boolean flag = true;
             do {
                 client.displayMainMenu();
@@ -332,11 +336,11 @@ public class CustomerClient {
 
             } while (flag);
 
-
-        } else {
-            System.out.println("Invalid Credentials, please check username and password.");
-            LOGGER.info(userName + "Invalid Credentials, please check username and password.");
-        }
+//
+//        } else {
+//            System.out.println("Invalid Credentials, please check username and password.");
+//            LOGGER.info(userName + "Invalid Credentials, please check username and password.");
+//        }
 
     }
 

@@ -2,15 +2,18 @@ package clients;
 /** @Author: Raveena Choudhary, 40232370 **/
 
 
+import configs.Configs;
+import frontend.DMS_CORBA.ServerObjectInterface;
+import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 //import servers.ServerEnum;
-import util.Movie;
-import util.ServerEnum;
-import util.SlotEnum;
+import utils.Movie;
+import utils.ServerEnum;
+import utils.SlotEnum;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -24,20 +27,20 @@ public class AdminClient {
     private static final Logger LOGGER = LogManager.getLogger("admin");
     private static String userName = "";
     private static String password = "";
-    private static final String HOSTNAME= "localhost";
+    private static final String HOSTNAME= Configs.FE_IP_Address;
 
     //threatre for admin
     private static String tLocation ="";
 
-    private static String PORT = "";
+    private static String PORT = String.valueOf( Configs.FE_PORT);
 
-    private static final String ATWATER_SERVER_PORT = "5000";
-    private static final String VERDUN_SERVER_PORT = "5001";
-    private static final String OUTREMONT_SERVER_PORT = "5002";
+//    private static final String ATWATER_SERVER_PORT = "5000";
+//    private static final String VERDUN_SERVER_PORT = "5001";
+//    private static final String OUTREMONT_SERVER_PORT = "5002";
 
 //    private static UserImplementation admin;
 
-    public static MovieTicketBooking.MovieTicketBookingInterface admin = null;
+    public static ServerObjectInterface admin = null;
 
     public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException {
 
@@ -56,9 +59,9 @@ public class AdminClient {
         connectToServer(args);
 
         //validate admin
-        if (userName.substring(3,4).equals("A") && admin.validateUser(userName, password)) {
-            System.out.println("Login Successfull!");
-            LOGGER.info(userName + "Login Success...");
+//        if (userName.substring(3,4).equals("A") && admin.validateUser(userName, password)) {
+//            System.out.println("Login Successfull!");
+//            LOGGER.info(userName + "Login Success...");
 
             //add sample movie slots for testing
 
@@ -71,33 +74,33 @@ public class AdminClient {
                 flag = ac.getInputFromUser(userName, Integer.parseInt(sc.nextLine()));
 
             }while(flag);
-
-        } else {
-            System.out.println("Invalid Credentials, please check username and password.");
-            LOGGER.info(userName + "Invalid Credentials, please check username and password.");
-        }
+//
+//        } else {
+//            System.out.println("Invalid Credentials, please check username and password.");
+//            LOGGER.info(userName + "Invalid Credentials, please check username and password.");
+//        }
     }
 
     private static void connectToServer(String[] args) {
         try
         {
             tLocation = ServerEnum.getEnumNameForValue(userName.substring(0,3)).toLowerCase();
-            switch(tLocation)
-            {
-                case "atwater":
-                    PORT=ATWATER_SERVER_PORT;
-                    break;
-                case "verdun":
-                    PORT=VERDUN_SERVER_PORT;
-                    break;
-                case "outremont":
-                    PORT=OUTREMONT_SERVER_PORT;
-                    break;
-            }
+//            switch(tLocation)
+//            {
+//                case "atwater":
+//                    PORT=ATWATER_SERVER_PORT;
+//                    break;
+//                case "verdun":
+//                    PORT=VERDUN_SERVER_PORT;
+//                    break;
+//                case "outremont":
+//                    PORT=OUTREMONT_SERVER_PORT;
+//                    break;
+//            }
 
             Properties props = new Properties();
-            props.put("org.omg.CORBA.ORBInitialPort", "1999");
-            props.put("org.omg.CORBA.ORBInitialHost", "localhost");
+            props.put("org.omg.CORBA.ORBInitialPort",PORT);
+            props.put("org.omg.CORBA.ORBInitialHost",HOSTNAME);
 
 //            String registryURL = "rmi://" + HOSTNAME+ ":" + PORT + "/" + tLocation +"/admin";
 //            admin = (MovieTicketBookingInterfaceRMI) Naming.lookup(registryURL);
@@ -109,9 +112,9 @@ public class AdminClient {
                     NamingContextExtHelper.narrow(objRef);
 //            admin = MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("admin"));
             //System.out.println(ncRef.resolve_str("FrontEnd"));
-            admin = MovieTicketBooking.MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
+            admin = ServerObjectInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
 
-            admin.setPortAndHost(HOSTNAME,PORT);
+//            admin.setPortAndHost(HOSTNAME,PORT);
             LOGGER.info(userName + "connection to server open...");
         }
         catch (Exception e) {

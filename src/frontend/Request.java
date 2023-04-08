@@ -1,15 +1,38 @@
 package frontend;
- import configs.Configs;
+
+import configs.Configs;
 
 //import src.Configs;
 
 public class Request {
 
   private String function = "null";
-  private String customerID = "null";
+  private String clientID = "null";
   private String oldMovieID = "null";
   private String oldMovieName = "null";
   private String numberOfTickets = "null";
+
+  @Override
+  public String toString() {
+    return "Request{" +
+            "function='" + function + '\'' +
+            ", clientID='" + clientID + '\'' +
+            ", oldMovieID='" + oldMovieID + '\'' +
+            ", oldMovieName='" + oldMovieName + '\'' +
+            ", numberOfTickets='" + numberOfTickets + '\'' +
+            ", newMovieID='" + newMovieID + '\'' +
+            ", newMovieName='" + newMovieName + '\'' +
+            ", movieID='" + movieID + '\'' +
+            ", movieName='" + movieName + '\'' +
+            ", FeIpAddress='" + FeIpAddress + '\'' +
+            ", bookingCapacity=" + bookingCapacity +
+            ", sequenceNumber=" + sequenceNumber +
+            ", MessageType='" + MessageType + '\'' +
+            ", retryCount=" + retryCount +
+            ", isRequestFromAdmin=" + isRequestFromAdmin +
+            '}';
+  }
+
   private String newMovieID = "null";
   private String newMovieName = "null";
   private String movieID = "null";
@@ -20,9 +43,12 @@ public class Request {
   private String MessageType = "00";
   private int retryCount = 1;
 
-  public Request(String function, String customerID) {
+  private boolean isRequestFromAdmin = false;
+
+  public Request(String function, String clientID) {
     setFunction(function);
-    setCustomerID(customerID);
+    setClientID(clientID);
+    if (clientID.charAt(3) == 'A') isRequestFromAdmin = true;
   }
 
   public Request(int rmNumber, String bugType) {
@@ -33,29 +59,32 @@ public class Request {
     return function;
   }
 
-  public void setFunction(String function) {
+  public Request setFunction(String function) {
     this.function = function;
+    return this;
   }
 
-  public String getCustomerID() {
-    return customerID;
+  public String getClientID() {
+    return clientID;
   }
 
-  public void setCustomerID(String customerID) {
-    this.customerID = customerID;
+  public Request setClientID(String clientID) {
+    this.clientID = clientID;
+    return this;
   }
 
   public int getBookingCapacity() {
     return bookingCapacity;
   }
 
-  public void setBookingCapacity(int bookingCapacity) {
+  public Request setBookingCapacity(int bookingCapacity) {
     this.bookingCapacity = bookingCapacity;
+    return this;
   }
 
   public String noRequestSendError() {
     return (
-      "request: " + getFunction() + " from " + getCustomerID() + " not sent"
+      "request: " + getFunction() + " from " + getClientID() + " not sent"
     );
   }
 
@@ -63,24 +92,25 @@ public class Request {
     return sequenceNumber;
   }
 
-  public void setSequenceNumber(int sequenceNumber) {
+  public Request setSequenceNumber(int sequenceNumber) {
     this.sequenceNumber = sequenceNumber;
+    return this;
   }
 
   public String getFeIpAddress() {
     return FeIpAddress;
   }
 
-  public void setFeIpAddress(String feIpAddress) {
-    FeIpAddress = feIpAddress;
+  public Request setFeIpAddress(String feIpAddress) {
+    FeIpAddress = feIpAddress;return this;
   }
 
   public String getMessageType() {
     return MessageType;
   }
 
-  public void setMessageType(String messageType) {
-    MessageType = messageType;
+  public Request setMessageType(String messageType) {
+    MessageType = messageType;return this;
   }
 
   public boolean haveRetries() {
@@ -123,31 +153,38 @@ public class Request {
   //     return retryCount;
   //   }
 
-  public void setMovieID(String movieID) {
+  public Request setMovieID(String movieID) {
     this.movieID = movieID;
+    return this;
   }
 
-  public void setMovieName(String movieName) {
+  public Request setMovieName(String movieName) {
     this.movieName = movieName;
+    return this;
   }
 
-  public void setNewMovieID(String newMovieID) {
+  public Request setNewMovieID(String newMovieID) {
     this.newMovieID = newMovieID;
+    return this;
   }
 
-  public void setNewMovieName(String newMovieName) {
+  public Request setNewMovieName(String newMovieName) {
     this.newMovieName = newMovieName;
+    return this;
   }
 
-  public void setNumberOfTickets(String numberOfTickets) {
+  public Request setNumberOfTickets(String numberOfTickets) {
     this.numberOfTickets = numberOfTickets;
+    return this;
   }
 
-  public void setOldMovieID(String oldMovieID) {
+  public Request setOldMovieID(String oldMovieID) {
     this.oldMovieID = oldMovieID;
+    return this;
   }
 
-  public void setOldMovieName(String oldMovieName) {
+  public Request setOldMovieName(String oldMovieName) {
     this.oldMovieName = oldMovieName;
+    return this;
   }
 }

@@ -6,7 +6,7 @@ public class Response {
   private String response = "null";
   private int rmNumber = 0;
   private String function = "null";
-  private String customerID = "null";
+  private String clientID = "null";
   private String oldMovieID = "null";
   private String oldMovieName = "null";
   private String numberOfTickets = "null";
@@ -21,12 +21,12 @@ public class Response {
     this.rmNumber = rmNumber;
   }
 
-  public String getCustomerID() {
-    return customerID;
+  public String getClientID() {
+    return clientID;
   }
 
-  public void setCustomerID(String customerID) {
-    this.customerID = customerID;
+  public void setClientID(String clientID) {
+    this.clientID = clientID;
   }
 
   public String getOldMovieID() {
@@ -96,12 +96,12 @@ public class Response {
     setResponse(messageParts[1].trim());
     setRmNumber(messageParts[2]);
     setFunction(messageParts[3]);
-//    setCustomerID(messageParts[4]);
-//    setNewBookingID(messageParts[5]);
-//    setNewBookingType(messageParts[6]);
-//    setOldBookingID(messageParts[7]);
-//    setOldBookingType(messageParts[8]);
-//    setBookingCapacity(Integer.parseInt(messageParts[9]));
+    //    setClientID(messageParts[4]);
+    //    setNewBookingID(messageParts[5]);
+    //    setNewBookingType(messageParts[6]);
+    //    setOldBookingID(messageParts[7]);
+    //    setOldBookingType(messageParts[8]);
+    //    setBookingCapacity(Integer.parseInt(messageParts[9]));
   }
 
   public int getSequenceID() {
@@ -145,7 +145,6 @@ public class Response {
     this.function = function;
   }
 
-
   public String getUdpMessage() {
     return udpMessage;
   }
@@ -157,21 +156,20 @@ public class Response {
   public boolean isSuccess() {
     return isSuccess;
   }
-
-//  @Override
-//  public boolean equals(Object obj) {
-//    if (obj != null) {
-//      if (obj instanceof Response) {
-//        Response obj1 = (Response) obj;
-//        return (
-//          obj1.getFunction().equalsIgnoreCase(this.getFunction()) &&
-//          obj1.getSequenceID() == this.getSequenceID() &&
-//          obj1.getUserID().equalsIgnoreCase(this.getUserID()) &&
-//          obj1.isSuccess() == this.isSuccess()
-//        );
-//        //                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
-//      }
-//    }
-//    return false;
-//  }
+  //  @Override
+  //  public boolean equals(Object obj) {
+  //    if (obj != null) {
+  //      if (obj instanceof Response) {
+  //        Response obj1 = (Response) obj;
+  //        return (
+  //          obj1.getFunction().equalsIgnoreCase(this.getFunction()) &&
+  //          obj1.getSequenceID() == this.getSequenceID() &&
+  //          obj1.getUserID().equalsIgnoreCase(this.getUserID()) &&
+  //          obj1.isSuccess() == this.isSuccess()
+  //        );
+  //        //                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
+  //      }
+  //    }
+  //    return false;
+  //  }
 }

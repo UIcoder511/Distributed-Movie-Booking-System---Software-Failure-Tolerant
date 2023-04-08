@@ -1,6 +1,4 @@
-package util;
-/** @Author: Raveena Choudhary, 40232370 **/
-import servers.ServerEnum;
+package utils;
 
 public class Movie {
 	private String name;

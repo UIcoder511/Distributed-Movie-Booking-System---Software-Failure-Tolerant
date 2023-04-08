@@ -401,27 +401,36 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
 
   @Override
   public String addMovieSlots(String movieID, String movieName, int bookingCapacity) {
+    System.out.println("addMovieSlots");
     return null;
   }
 
   @Override
   public String removeMovieSlots(String movieID, String movieName) {
+    System.out.println("removeMovieSlots");
     return null;
   }
 
   @Override
   public String listMovieShowsAvailability(String movieName) {
+    System.out.println("listMovieShowsAvailability");
     return null;
   }
 
   @Override
   public String bookMovieTickets(String customerID, String movieID, String movieName, int numberOfTickets) {
+    System.out.println("bookMovieTickets");
     return null;
   }
 
   @Override
   public String getBookingSchedule(String customerID) {
-    return null;
+    System.out.println("getBookingSchedule");
+        Request request = new Request("getBookingSchedule", customerID);
+
+    sendUdpUnicastToSequencer(request);
+    System.out.println("FE getBookingSchedule>>>" + request);
+    return validateResponses(request);
   }
 
   @Override
