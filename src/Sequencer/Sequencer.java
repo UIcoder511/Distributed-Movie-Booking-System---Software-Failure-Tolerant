@@ -1,11 +1,15 @@
 package Sequencer;
 
+import configs.Configs;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+
 import static configs.Configs.sequencerIP;
 import static configs.Configs.sequencerPort;
-
-import configs.Configs;
-import java.io.IOException;
-import java.net.*;
 
 public class Sequencer {
 
@@ -57,6 +61,17 @@ public class Sequencer {
         String[] responseParts = response.split(";");
         int sqcID1 = Integer.parseInt(responseParts[0]);
         String ip = datagramPacket.getAddress().getHostAddress();
+        //	return 0 getSequenceNumber() + ";" +
+//1	getFeIpAddress().toUpperCase() + ";" +
+//2	getMessageType().toUpperCase() + ";" +
+//3	getFunction().toUpperCase() + ";" +
+//4	getClientID().toUpperCase() + ";" +
+//5	getMovieID().toUpperCase() + ";" +
+//6	getMovieName().toUpperCase() + ";" +
+//7	getBookingCapacity() + ";" +
+//8	getOldMovieID().toUpperCase() + ";" +
+//9	getOldMovieName().toUpperCase() + ";" +
+//10	getNumberOfTickets() ;
         String response1 =
           ip +
           ";" +

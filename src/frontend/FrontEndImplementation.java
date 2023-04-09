@@ -38,110 +38,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
   public void setORB(ORB orb_val) {
     orb = orb_val;
   }
-//
-//  @Override
-//  public synchronized String addEvent(
-//    String managerID,
-//    String eventID,
-//    String eventType,
-//    int bookingCapacity
-//  ) {
-//    Request request = new Request("addEvent", managerID);
-//    myRequest.setEventID(eventID);
-//    myRequest.setEventType(eventType);
-//    myRequest.setBookingCapacity(bookingCapacity);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println("FE Implementation:addEvent>>>" + myRequest.toString());
-//    return validateResponses(myRequest);
-//  }
-//
-//  @Override
-//  public synchronized String removeEvent(
-//    String managerID,
-//    String eventID,
-//    String eventType
-//  ) {
-//    MyRequest myRequest = new MyRequest("removeEvent", managerID);
-//    myRequest.setEventID(eventID);
-//    myRequest.setEventType(eventType);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println(
-//      "FE Implementation:removeEvent>>>" + myRequest.toString()
-//    );
-//    return validateResponses(myRequest);
-//  }
-//
-//  @Override
-//  public synchronized String listEventAvailability(
-//    String managerID,
-//    String eventType
-//  ) {
-//    MyRequest myRequest = new MyRequest("listEventAvailability", managerID);
-//    myRequest.setEventType(eventType);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println(
-//      "FE Implementation:listEventAvailability>>>" + myRequest.toString()
-//    );
-//    return validateResponses(myRequest);
-//  }
-//
-//  @Override
-//  public synchronized String bookEvent(
-//    String customerID,
-//    String eventID,
-//    String eventType
-//  ) {
-//    MyRequest myRequest = new MyRequest("bookEvent", customerID);
-//    myRequest.setEventID(eventID);
-//    myRequest.setEventType(eventType);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println("FE Implementation:bookEvent>>>" + myRequest.toString());
-//    return validateResponses(myRequest);
-//  }
-//
-//  @Override
-//  public synchronized String getBookingSchedule(String customerID) {
-//    MyRequest myRequest = new MyRequest("getBookingSchedule", customerID);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println(
-//      "FE Implementation:getBookingSchedule>>>" + myRequest.toString()
-//    );
-//    return validateResponses(myRequest);
-//  }
-//
-//  @Override
-//  public synchronized String cancelEvent(
-//    String customerID,
-//    String eventID,
-//    String eventType
-//  ) {
-//    MyRequest myRequest = new MyRequest("cancelEvent", customerID);
-//    myRequest.setEventID(eventID);
-//    myRequest.setEventType(eventType);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println(
-//      "FE Implementation:cancelEvent>>>" + myRequest.toString()
-//    );
-//    return validateResponses(myRequest);
-//  }
-//
-//  @Override
-//  public synchronized String swapEvent(
-//    String customerID,
-//    String newEventID,
-//    String newEventType,
-//    String oldEventID,
-//    String oldEventType
-//  ) {
-//    MyRequest myRequest = new MyRequest("swapEvent", customerID);
-//    myRequest.setEventID(newEventID);
-//    myRequest.setEventType(newEventType);
-//    myRequest.setOldEventID(oldEventID);
-//    myRequest.setOldEventType(oldEventType);
-//    myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-//    System.out.println("FE Implementation:swapEvent>>>" + myRequest.toString());
-//    return validateResponses(myRequest);
-//  }
+
 
   public void shutdown() {
     orb.shutdown(false);
@@ -174,17 +71,17 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
       case 2:
         resp = findMajorityResponse(request);
         break;
-      case 3:
-        resp = "Fail: No response from any server";
-        System.out.println(resp);
-        if (request.haveRetries()) {
-          request.countRetry();
-          resp = retryRequest(request);
-        }
-        rmFailed(1);
-        rmFailed(2);
-        rmFailed(3);
-        break;
+//      case 3:
+//        resp = "Fail: No response from any server";
+//        System.out.println(resp);
+//        if (request.haveRetries()) {
+//          request.countRetry();
+//          resp = retryRequest(request);
+//        }
+//        rmFailed(1);
+//        rmFailed(2);
+//        rmFailed(3);
+//        break;
       default:
         resp = "Fail: " + request.noRequestSendError();
         break;
@@ -434,7 +331,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     Request request = new Request("addMovieSlots", null);
     request.setNewMovieID(movieID).setClientID(clientID).setNewMovieName(movieName).setBookingCapacity(bookingCapacity).setSequenceNumber(sendUdpUnicastToSequencer(request));
 
-    System.out.println("FE Implementation: " + request.toString());
+    System.out.println("FE addMovieSlots: " + request.toString());
     return validateResponses(request);
 //    return null;
   }
@@ -442,7 +339,11 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
   @Override
   public String removeMovieSlots(String clientID,String movieID, String movieName) {
     System.out.println("removeMovieSlots");
-    return null;
+    Request request = new Request("removeMovieSlots", clientID);
+    request.setClientID(clientID).setNewMovieID(movieID).setNewMovieName(movieName).setSequenceNumber(sendUdpUnicastToSequencer(request));
+
+    System.out.println("FE removeMovieSlots: " + request.toString());
+    return validateResponses(request);
   }
 
   @Override
@@ -451,7 +352,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     Request request = new Request("listMovieShowsAvailability", clientID);
     request.setClientID(clientID).setNewMovieName(movieName).setSequenceNumber(sendUdpUnicastToSequencer(request));
 
-    System.out.println("FE Implementation: " + request.toString());
+    System.out.println("FE listMovieShowsAvailability: " + request.toString());
     return validateResponses(request);
 //    return null;
   }
@@ -462,7 +363,7 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     Request request = new Request("bookMovieTickets",customerID);
     request.setNewMovieID(movieID).setClientID(customerID).setNewMovieName(movieName).setNumberOfTickets(numberOfTickets).setSequenceNumber(sendUdpUnicastToSequencer(request));
 
-    System.out.println("FE Implementation: " + request.toString());
+    System.out.println("FE bookMovieTickets: " + request.toString());
     return validateResponses(request);
 //    return null;
   }
@@ -472,18 +373,26 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     System.out.println("getBookingSchedule");
         Request request = new Request("getBookingSchedule", customerID);
 
-    sendUdpUnicastToSequencer(request);
+   request.setSequenceNumber( sendUdpUnicastToSequencer(request));
     System.out.println("FE getBookingSchedule>>>" + request);
     return validateResponses(request);
   }
 
   @Override
   public String cancelMovieTickets(String customerID, String movieID, String movieName, int numberOfTickets) {
-    return null;
+    Request request = new Request("cancelMovieTickets",customerID);
+    request.setNewMovieID(movieID).setClientID(customerID).setNewMovieName(movieName).setNumberOfTickets(numberOfTickets).setSequenceNumber(sendUdpUnicastToSequencer(request));
+
+    System.out.println("FE cancelMovieTickets: " + request.toString());
+    return validateResponses(request);
   }
 
   @Override
-  public String exchangeTickets(String customerID, String movieID, String newMovieID, String oldMovieName, String movieName, int numberOfTickets) {
-    return null;
+  public String exchangeTickets(String customerID, String oldMovieID, String newMovieID, String oldMovieName, String newMovieName, int numberOfTickets) {
+    Request request = new Request("exchangeTickets",customerID);
+    request.setNewMovieID(newMovieID).setClientID(customerID).setNewMovieName(newMovieName).setOldMovieName(oldMovieName).setOldMovieID(oldMovieID).setNumberOfTickets(numberOfTickets).setSequenceNumber(sendUdpUnicastToSequencer(request));
+
+    System.out.println("FE exchangeTickets: " + request.toString());
+    return validateResponses(request);
   }
 }

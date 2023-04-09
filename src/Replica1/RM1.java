@@ -189,6 +189,17 @@ public class RM1 {
 
     private static Message message_obj_create(String data) {
         String[] parts = data.split(";");
+        //	return 0 getSequenceNumber() + ";" +
+//1	getFeIpAddress().toUpperCase() + ";" +
+//2	getMessageType().toUpperCase() + ";" +
+//3	getFunction().toUpperCase() + ";" +
+//4	getClientID().toUpperCase() + ";" +
+//5	getMovieID().toUpperCase() + ";" +
+//6	getMovieName().toUpperCase() + ";" +
+//7	getBookingCapacity() + ";" +
+//8	getOldMovieID().toUpperCase() + ";" +
+//9	getOldMovieName().toUpperCase() + ";" +
+//10	getNumberOfTickets() ;
         int sequenceId = Integer.parseInt(parts[0]);
         String FrontIpAddress = parts[1];
         String MessageType = parts[2];
