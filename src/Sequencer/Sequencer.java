@@ -1,111 +1,103 @@
 package Sequencer;
 
-import configs.Configs;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-
 import static configs.Configs.sequencerIP;
 import static configs.Configs.sequencerPort;
 
+import configs.Configs;
+import java.io.IOException;
+import java.net.*;
+
 public class Sequencer {
-	private static int sequencerId = 0;
-	//private static final String sequencerIP = "192.168.2.17";
-//  private static final String sequencerIP = "localhost";
 
-	public static void main(String[] args) {
-		DatagramSocket aSocket = null;
-		try {
-			aSocket = new DatagramSocket(sequencerPort, InetAddress.getByName(sequencerIP));
-			byte[] buffer = new byte[1000];
-			System.out.println("Sequencer UDP Server Started on "+sequencerIP+":"+sequencerPort);
-			while (true) {
-				// DatagramPacket request = new DatagramPacket(buffer,
-				// buffer.length);
-				DatagramPacket request = new DatagramPacket(buffer,
-						buffer.length);
+  private static int sqcID = 0;
 
-				aSocket.receive(request);
+  public static void sendMessage(String msg, int sqcId1, boolean isRequest) {
+    int port = 1234;
 
-				String sentence = new String(request.getData(), 0,
-						request.getLength());
+    if (sqcId1 == 0 && isRequest) {
+      sqcId1 = ++sqcID;
+    }
+    String finalMsg = sqcId1 + ";" + msg;
 
-				String[] parts = sentence.split(";");
-				int sequencerId1 = Integer.parseInt(parts[0]);
-				String ip = request.getAddress().getHostAddress();
-//				ip = "localhost";
+    DatagramSocket ds = null;
+    try {
+      ds = new DatagramSocket();
+      byte[] msgs = finalMsg.getBytes();
+      InetAddress aHost = InetAddress.getByName(
+        Configs.RM_Multicast_group_address
+      );
 
+      DatagramPacket request = new DatagramPacket(
+        msgs,
+        msgs.length,
+        aHost,
+        port
+      );
+      ds.send(request);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-				//	return 0 getSequenceNumber() + ";" +
-//1	getFeIpAddress().toUpperCase() + ";" +
-//2	getMessageType().toUpperCase() + ";" +
-//3	getFunction().toUpperCase() + ";" +
-//4	getClientID().toUpperCase() + ";" +
-//5	getMovieID().toUpperCase() + ";" +
-//6	getMovieName().toUpperCase() + ";" +
-//7	getBookingCapacity() + ";" +
-//8	getOldMovieID().toUpperCase() + ";" +
-//9	getOldMovieName().toUpperCase() + ";" +
-//10	getNumberOfTickets() ;
-				String sentence1 = ip + ";" +
-						parts[2] + ";" +
-						parts[3] + ";" +
-						parts[4] + ";" +
-						parts[5] + ";" +
-						parts[6] + ";" +
-						parts[7] + ";" +
-						parts[8] + ";" +
-						parts[9] + ";"+
-						parts[10] + ";";
-//						parts[11] + ";";
-
-//				sequencerId = sequencerId1;
-				System.out.println(sentence1);
-				sendMessage(sentence1, sequencerId1, parts[2].equalsIgnoreCase("00"));
-
-				byte[] SeqId = (Integer.toString(sequencerId)).getBytes();
-				InetAddress aHost1 = request.getAddress();
-				int port1 = request.getPort();
-
-				System.out.println(aHost1 + ":" + port1);
-				DatagramPacket request1 = new DatagramPacket(SeqId,
-						SeqId.length, aHost1, port1);
-				aSocket.send(request1);
-			}
-
-		} catch (SocketException e) {
-			System.out.println("Socket: " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("IO: " + e.getMessage());
-		} finally {
-			if (aSocket != null)
-				aSocket.close();
-		}
-	}
-
-	public static void sendMessage(String message, int sequencerId1, boolean isRequest) {
-		int port = 1234;
-
-		if (sequencerId1 == 0 && isRequest) {
-			sequencerId1 = ++sequencerId;
-		}
-		String finalMessage = sequencerId1 + ";" + message;
-
-		DatagramSocket aSocket = null;
-		try {
-			aSocket = new DatagramSocket();
-			byte[] messages = finalMessage.getBytes();
-			InetAddress aHost = InetAddress.getByName(Configs.RM_Multicast_group_address);
-
-			DatagramPacket request = new DatagramPacket(messages,
-					messages.length, aHost, port);
-			aSocket.send(request);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+  public static void main(String[] a) {
+    DatagramSocket datagramSocket = null;
+    try {
+      datagramSocket =
+        new DatagramSocket(sequencerPort, InetAddress.getByName(sequencerIP));
+      byte[] b = new byte[1000];
+      System.out.println("--Sequencer UDP server started--");
+      while (true) {
+        DatagramPacket datagramPacket = new DatagramPacket(b, b.length);
+        datagramSocket.receive(datagramPacket);
+        String response = new String(
+          datagramPacket.getData(),
+          0,
+          datagramPacket.getLength()
+        );
+        String[] responseParts = response.split(";");
+        int sqcID1 = Integer.parseInt(responseParts[0]);
+        String ip = datagramPacket.getAddress().getHostAddress();
+        String response1 =
+          ip +
+          ";" +
+          responseParts[2] +
+          ";" +
+          responseParts[3] +
+          ";" +
+          responseParts[4] +
+          ";" +
+          responseParts[5] +
+          ";" +
+          responseParts[6] +
+          ";" +
+          responseParts[7] +
+          ";" +
+          responseParts[8] +
+          ";" +
+          responseParts[9] +
+          ";" +
+          responseParts[10] +
+          ";";
+        System.out.println(response1);
+        sendMessage(response1, sqcID1, responseParts[2].equalsIgnoreCase("00"));
+        byte[] seqID = (Integer.toString(sqcID)).getBytes();
+        InetAddress aHost = datagramPacket.getAddress();
+        int port1 = datagramPacket.getPort();
+        System.out.println(aHost + ":" + port1);
+        DatagramPacket dp = new DatagramPacket(
+          seqID,
+          seqID.length,
+          aHost,
+          port1
+        );
+        datagramSocket.send(dp);
+      }
+    } catch (SocketException e) {
+      System.out.println("Socket: " + e.getMessage());
+    } catch (IOException e) {
+      System.out.println("IO: " + e.getMessage());
+    } finally {
+      if (datagramSocket != null) datagramSocket.close();
+    }
+  }
 }
