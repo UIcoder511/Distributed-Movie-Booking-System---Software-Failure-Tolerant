@@ -1,6 +1,8 @@
 package clients;
 /** @Author: Raveena Choudhary, 40232370 **/
 
+import frontend.DMS_CORBA.ServerObjectInterface;
+import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
@@ -30,7 +32,7 @@ public class CustomerClient {
 //    private static final String VERDUN_SERVER_PORT = "5001";
 //    private static final String OUTREMONT_SERVER_PORT = "5002";
 
-    private static MovieTicketBooking.MovieTicketBookingInterface customer = null;
+    private static ServerObjectInterface customer = null;
 
     //method displaying main menu
     private void displayMainMenu() {
@@ -299,7 +301,7 @@ public class CustomerClient {
                     orb.resolve_initial_references("NameService");
             NamingContextExt ncRef =
                     NamingContextExtHelper.narrow(objRef);
-            customer = MovieTicketBooking.MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
+            customer = ServerObjectInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
 
             LOGGER.info(userName + "connection to server open...");
 

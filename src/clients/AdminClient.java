@@ -2,6 +2,8 @@ package clients;
 /** @Author: Raveena Choudhary, 40232370 **/
 
 
+import frontend.DMS_CORBA.ServerObjectInterface;
+import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
@@ -34,9 +36,7 @@ public class AdminClient {
 //    private static final String VERDUN_SERVER_PORT = "5001";
 //    private static final String OUTREMONT_SERVER_PORT = "5002";
 
-//    private static UserImplementation admin;
-
-    private static MovieTicketBooking.MovieTicketBookingInterface admin = null;
+    private static ServerObjectInterface admin = null;
 
     public static void main(String[] args) throws MalformedURLException, NotBoundException, RemoteException {
 
@@ -98,17 +98,12 @@ public class AdminClient {
             props.put("org.omg.CORBA.ORBInitialPort", "1999");
             props.put("org.omg.CORBA.ORBInitialHost", "localhost");
 
-//            String registryURL = "rmi://" + HOSTNAME+ ":" + PORT + "/" + tLocation +"/admin";
-//            admin = (MovieTicketBookingInterfaceRMI) Naming.lookup(registryURL);
-
             ORB orb = ORB.init(args, props);
             org.omg.CORBA.Object objRef =
                     orb.resolve_initial_references("NameService");
             NamingContextExt ncRef =
                     NamingContextExtHelper.narrow(objRef);
-//            admin = MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("admin"));
-            //System.out.println(ncRef.resolve_str("FrontEnd"));
-            admin = MovieTicketBooking.MovieTicketBookingInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
+            admin = ServerObjectInterfaceHelper.narrow(ncRef.resolve_str("FrontEnd"));
 
             //admin.setPortAndHost(HOSTNAME,PORT);
             LOGGER.info(userName + "connection to server open...");
