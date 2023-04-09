@@ -20,6 +20,18 @@ public class Message {
 		this.bookingCapacity = bookingCapacity;
 		this.numberOfTickets = numberOfTickets;
 	}
+
+	//	return 0 getSequenceNumber() + ";" +
+//1	getFeIpAddress().toUpperCase() + ";" +
+//2	getMessageType().toUpperCase() + ";" +
+//3	getFunction().toUpperCase() + ";" +
+//4	getClientID().toUpperCase() + ";" +
+//5	getMovieID().toUpperCase() + ";" +
+//6	getMovieName().toUpperCase() + ";" +
+//7	getBookingCapacity() + ";" +
+//8	getOldMovieID().toUpperCase() + ";" +
+//9	getOldMovieName().toUpperCase() + ";" +
+//10	getNumberOfTickets() ;
     @Override
     public String toString() {
 		return sequenceId + ";" + FrontEndIpAddress + ";" +MessageType + ";" +MethodCalled + ";" +userID + ";" +newMovieId +

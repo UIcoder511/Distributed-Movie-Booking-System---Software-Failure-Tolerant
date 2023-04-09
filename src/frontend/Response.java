@@ -156,20 +156,21 @@ public class Response {
   public boolean isSuccess() {
     return isSuccess;
   }
-  //  @Override
-  //  public boolean equals(Object obj) {
-  //    if (obj != null) {
-  //      if (obj instanceof Response) {
-  //        Response obj1 = (Response) obj;
-  //        return (
-  //          obj1.getFunction().equalsIgnoreCase(this.getFunction()) &&
-  //          obj1.getSequenceID() == this.getSequenceID() &&
-  //          obj1.getUserID().equalsIgnoreCase(this.getUserID()) &&
-  //          obj1.isSuccess() == this.isSuccess()
-  //        );
-  //        //                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
-  //      }
-  //    }
-  //    return false;
-  //  }
+    @Override
+    public boolean equals(Object obj) {
+      if (obj != null) {
+        if (obj instanceof Response) {
+          Response obj1 = (Response) obj;
+          return (
+            obj1.getFunction().equalsIgnoreCase(this.getFunction()) &&
+            obj1.getSequenceID() == this.getSequenceID() &&
+            obj1.getClientID().equalsIgnoreCase(this.getClientID()) &&
+            obj1.isSuccess() == this.isSuccess() &&
+                    obj1.getResponse().equals(this.getResponse())
+          );
+          //                        && obj1.getResponse().equalsIgnoreCase(this.getResponse());
+        }
+      }
+      return false;
+    }
 }

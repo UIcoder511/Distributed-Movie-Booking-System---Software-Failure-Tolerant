@@ -1,22 +1,27 @@
 package Sequencer;
 
+import configs.Configs;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import static configs.Configs.sequencerIP;
+import static configs.Configs.sequencerPort;
+
 public class Sequencer {
 	private static int sequencerId = 0;
 	//private static final String sequencerIP = "192.168.2.17";
-  private static final String sequencerIP = "localhost";
+//  private static final String sequencerIP = "localhost";
 
 	public static void main(String[] args) {
 		DatagramSocket aSocket = null;
 		try {
-			aSocket = new DatagramSocket(1333, InetAddress.getByName(sequencerIP));
+			aSocket = new DatagramSocket(sequencerPort, InetAddress.getByName(sequencerIP));
 			byte[] buffer = new byte[1000];
-			System.out.println("Sequencer UDP Server Started");
+			System.out.println("Sequencer UDP Server Started on "+sequencerIP+":"+sequencerPort);
 			while (true) {
 				// DatagramPacket request = new DatagramPacket(buffer,
 				// buffer.length);
@@ -33,6 +38,18 @@ public class Sequencer {
 				String ip = request.getAddress().getHostAddress();
 //				ip = "localhost";
 
+
+				//	return 0 getSequenceNumber() + ";" +
+//1	getFeIpAddress().toUpperCase() + ";" +
+//2	getMessageType().toUpperCase() + ";" +
+//3	getFunction().toUpperCase() + ";" +
+//4	getClientID().toUpperCase() + ";" +
+//5	getMovieID().toUpperCase() + ";" +
+//6	getMovieName().toUpperCase() + ";" +
+//7	getBookingCapacity() + ";" +
+//8	getOldMovieID().toUpperCase() + ";" +
+//9	getOldMovieName().toUpperCase() + ";" +
+//10	getNumberOfTickets() ;
 				String sentence1 = ip + ";" +
 						parts[2] + ";" +
 						parts[3] + ";" +
@@ -81,7 +98,7 @@ public class Sequencer {
 		try {
 			aSocket = new DatagramSocket();
 			byte[] messages = finalMessage.getBytes();
-			InetAddress aHost = InetAddress.getByName("230.1.1.10");
+			InetAddress aHost = InetAddress.getByName(Configs.RM_Multicast_group_address);
 
 			DatagramPacket request = new DatagramPacket(messages,
 					messages.length, aHost, port);

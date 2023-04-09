@@ -1,5 +1,5 @@
 /** @Author: Raveena Choudhary, 40232370 **/
-package utils;
+package util.booking;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

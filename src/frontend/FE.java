@@ -44,7 +44,7 @@ public class FE {
 
         @Override
         public int sendRequestToSequencer(Request request) {
-          return 0;
+          return sendUnicastToSequencer(request);
         }
 
         @Override

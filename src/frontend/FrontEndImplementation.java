@@ -198,6 +198,18 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     return resp;
   }
 
+  private String getResFromMajority(Response res1,Response res2,Response res3){
+    if (res1.equals(res2)) {
+      return res1.getResponse();
+    }else if(res1.equals(res3)){
+      return res1.getResponse();
+    }else if(res2.equals(res3)){
+      return res2.getResponse();
+    }else {
+      return res1.getResponse();
+    }
+  }
+
   private String findMajorityResponse(Request request) {
     Response res1 = null;
     Response res2 = null;
@@ -231,80 +243,97 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
     );
     if (res1 == null) {
       rmFailed(1);
-    } else {
-
-      if (res1.equals(res2)) {
-        if (!res1.equals(res3) && res3 != null) {
-          rmSoftwareFailureIn(3);
-        }
-        return res2.getResponse();
-      } else if (res1.equals(res3)) {
-        if (!res1.equals(res2) && res2 != null) {
-          rmSoftwareFailureIn(2);
-        }
-        return res1.getResponse();
-      } else {
-        //                if (res2 != null && res2.equals(res3)) {
-        if (res2 == null && res3 == null) {
-          return res1.getResponse();
-        } else {
-          //                    rmBugFound(1);
-        }
-        //                    return res2.getResponse();
-        //                }
-      }
+      return res2.getResponse();
     }
-    if (res2 == null) {
+    else if(res2==null){
       rmFailed(2);
-    } else {
 
-      if (res2.equals(res3)) {
-        if (!res2.equals(res1) && res1 != null) {
-          rmSoftwareFailureIn(1);
-        }
-        return res2.getResponse();
-      } else if (res2.equals(res1)) {
-        if (!res2.equals(res3) && res3 != null) {
-          rmSoftwareFailureIn(3);
-        }
-        return res2.getResponse();
-      } else {
-        //                if (!res1.equals("null") && res1.equals(res3)) {
-        if (res1 == null && res3 == null) {
-          return res2.getResponse();
-        } else {
-          //                    rmBugFound(2);
-        }
-        //                }
-        //                return res1;
-      }
+      return res1.getResponse();
     }
-    if (res3 == null) {
+    else if(res3==null){
       rmFailed(3);
-    } else {
-
-      if (res3.equals(res2)) {
-        if (!res3.equals(res1) && res1 != null) {
-          rmSoftwareFailureIn(1);
-        }
-        return res2.getResponse();
-      } else if (res3.equals(res1) && res2 != null) {
-        if (!res3.equals(res2)) {
-          rmSoftwareFailureIn(2);
-        }
-        return res3.getResponse();
-      } else {
-        //                if (!res2.equals("null") && res2.equals(res1)) {
-        if (res1 == null && res2 == null) {
-          return res3.getResponse();
-        } else {
-          //                    rmBugFound(3);
-        }
-        //                }
-        //                return res1;
-      }
+      return res3.getResponse();
+    } else{
+      //got res from all
+      return getResFromMajority(res1,res2,res3);
     }
-    return "Fail: majority response not found";
+
+
+//
+//    else {
+//
+//      if (res1.equals(res2)) {
+//        if (!res1.equals(res3) && res3 != null) {
+//          rmSoftwareFailureIn(3);
+//        }
+//        return res2.getResponse();
+//      } else if (res1.equals(res3)) {
+//        if (!res1.equals(res2) && res2 != null) {
+//          rmSoftwareFailureIn(2);
+//        }
+//        return res1.getResponse();
+//      } else {
+//        //                if (res2 != null && res2.equals(res3)) {
+//        if (res2 == null && res3 == null) {
+//          return res1.getResponse();
+//        } else {
+//          //                    rmBugFound(1);
+//        }
+//        //                    return res2.getResponse();
+//        //                }
+//      }
+//    }
+//    if (res2 == null) {
+//      rmFailed(2);
+//    } else {
+//
+//      if (res2.equals(res3)) {
+//        if (!res2.equals(res1) && res1 != null) {
+//          rmSoftwareFailureIn(1);
+//        }
+//        return res2.getResponse();
+//      } else if (res2.equals(res1)) {
+//        if (!res2.equals(res3) && res3 != null) {
+//          rmSoftwareFailureIn(3);
+//        }
+//        return res2.getResponse();
+//      } else {
+//        //                if (!res1.equals("null") && res1.equals(res3)) {
+//        if (res1 == null && res3 == null) {
+//          return res2.getResponse();
+//        } else {
+//          //                    rmBugFound(2);
+//        }
+//        //                }
+//        //                return res1;
+//      }
+//    }
+//    if (res3 == null) {
+//      rmFailed(3);
+//    } else {
+//
+//      if (res3.equals(res2)) {
+//        if (!res3.equals(res1) && res1 != null) {
+//          rmSoftwareFailureIn(1);
+//        }
+//        return res2.getResponse();
+//      } else if (res3.equals(res1) && res2 != null) {
+//        if (!res3.equals(res2)) {
+//          rmSoftwareFailureIn(2);
+//        }
+//        return res3.getResponse();
+//      } else {
+//        //                if (!res2.equals("null") && res2.equals(res1)) {
+//        if (res1 == null && res2 == null) {
+//          return res3.getResponse();
+//        } else {
+//          //                    rmBugFound(3);
+//        }
+//        //                }
+//        //                return res1;
+//      }
+//    }
+//    return "Fail: majority response not found";
   }
 
   private void rmSoftwareFailureIn(int rmNumber) {
@@ -400,27 +429,42 @@ public class FrontEndImplementation extends ServerObjectInterfacePOA {
   }
 
   @Override
-  public String addMovieSlots(String movieID, String movieName, int bookingCapacity) {
+  public String addMovieSlots(String clientID,String movieID, String movieName, int bookingCapacity) {
     System.out.println("addMovieSlots");
-    return null;
+    Request request = new Request("addMovieSlots", null);
+    request.setNewMovieID(movieID).setClientID(clientID).setNewMovieName(movieName).setBookingCapacity(bookingCapacity).setSequenceNumber(sendUdpUnicastToSequencer(request));
+
+    System.out.println("FE Implementation: " + request.toString());
+    return validateResponses(request);
+//    return null;
   }
 
   @Override
-  public String removeMovieSlots(String movieID, String movieName) {
+  public String removeMovieSlots(String clientID,String movieID, String movieName) {
     System.out.println("removeMovieSlots");
     return null;
   }
 
   @Override
-  public String listMovieShowsAvailability(String movieName) {
+  public String listMovieShowsAvailability(String clientID,String movieName) {
     System.out.println("listMovieShowsAvailability");
-    return null;
+    Request request = new Request("listMovieShowsAvailability", clientID);
+    request.setClientID(clientID).setNewMovieName(movieName).setSequenceNumber(sendUdpUnicastToSequencer(request));
+
+    System.out.println("FE Implementation: " + request.toString());
+    return validateResponses(request);
+//    return null;
   }
 
   @Override
   public String bookMovieTickets(String customerID, String movieID, String movieName, int numberOfTickets) {
     System.out.println("bookMovieTickets");
-    return null;
+    Request request = new Request("bookMovieTickets",customerID);
+    request.setNewMovieID(movieID).setClientID(customerID).setNewMovieName(movieName).setNumberOfTickets(numberOfTickets).setSequenceNumber(sendUdpUnicastToSequencer(request));
+
+    System.out.println("FE Implementation: " + request.toString());
+    return validateResponses(request);
+//    return null;
   }
 
   @Override

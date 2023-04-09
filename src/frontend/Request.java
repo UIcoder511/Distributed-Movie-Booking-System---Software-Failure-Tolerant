@@ -10,28 +10,8 @@ public class Request {
   private String clientID = "null";
   private String oldMovieID = "null";
   private String oldMovieName = "null";
-  private String numberOfTickets = "null";
+  private int numberOfTickets = 0;
 
-  @Override
-  public String toString() {
-    return "Request{" +
-            "function='" + function + '\'' +
-            ", clientID='" + clientID + '\'' +
-            ", oldMovieID='" + oldMovieID + '\'' +
-            ", oldMovieName='" + oldMovieName + '\'' +
-            ", numberOfTickets='" + numberOfTickets + '\'' +
-            ", newMovieID='" + newMovieID + '\'' +
-            ", newMovieName='" + newMovieName + '\'' +
-            ", movieID='" + movieID + '\'' +
-            ", movieName='" + movieName + '\'' +
-            ", FeIpAddress='" + FeIpAddress + '\'' +
-            ", bookingCapacity=" + bookingCapacity +
-            ", sequenceNumber=" + sequenceNumber +
-            ", MessageType='" + MessageType + '\'' +
-            ", retryCount=" + retryCount +
-            ", isRequestFromAdmin=" + isRequestFromAdmin +
-            '}';
-  }
 
   private String newMovieID = "null";
   private String newMovieName = "null";
@@ -48,7 +28,7 @@ public class Request {
   public Request(String function, String clientID) {
     setFunction(function);
     setClientID(clientID);
-    if (clientID.charAt(3) == 'A') isRequestFromAdmin = true;
+    if (clientID==null) isRequestFromAdmin = true;
   }
 
   public Request(int rmNumber, String bugType) {
@@ -120,14 +100,14 @@ public class Request {
   public void countRetry() {
     retryCount--;
   }
-
-  public String getMovieID() {
-    return movieID;
-  }
-
-  public String getMovieName() {
-    return movieName;
-  }
+//
+//  public String getMovieID() {
+//    return movieID;
+//  }
+//
+//  public String getMovieName() {
+//    return movieName;
+//  }
 
   public String getNewMovieID() {
     return newMovieID;
@@ -137,7 +117,7 @@ public class Request {
     return newMovieName;
   }
 
-  public String getNumberOfTickets() {
+  public int getNumberOfTickets() {
     return numberOfTickets;
   }
 
@@ -153,15 +133,15 @@ public class Request {
   //     return retryCount;
   //   }
 
-  public Request setMovieID(String movieID) {
-    this.movieID = movieID;
-    return this;
-  }
-
-  public Request setMovieName(String movieName) {
-    this.movieName = movieName;
-    return this;
-  }
+//  public Request setMovieID(String movieID) {
+//    this.movieID = movieID;
+//    return this;
+//  }
+//
+//  public Request setMovieName(String movieName) {
+//    this.movieName = movieName;
+//    return this;
+//  }
 
   public Request setNewMovieID(String newMovieID) {
     this.newMovieID = newMovieID;
@@ -173,7 +153,7 @@ public class Request {
     return this;
   }
 
-  public Request setNumberOfTickets(String numberOfTickets) {
+  public Request setNumberOfTickets(int numberOfTickets) {
     this.numberOfTickets = numberOfTickets;
     return this;
   }
@@ -186,5 +166,20 @@ public class Request {
   public Request setOldMovieName(String oldMovieName) {
     this.oldMovieName = oldMovieName;
     return this;
+  }
+
+  @Override
+  public String toString() {
+    return getSequenceNumber() + ";" +
+            getFeIpAddress().toUpperCase() + ";" +
+            getMessageType().toUpperCase() + ";" +
+            getFunction().toUpperCase() + ";" +
+            (getClientID()==null?"":getClientID()).toUpperCase() + ";" +
+            getNewMovieID().toUpperCase() + ";" +
+            getNewMovieName().toUpperCase() + ";" +
+            getBookingCapacity() + ";" +
+            getOldMovieID().toUpperCase() + ";" +
+            getOldMovieName().toUpperCase() + ";" +
+            getNumberOfTickets() ;
   }
 }

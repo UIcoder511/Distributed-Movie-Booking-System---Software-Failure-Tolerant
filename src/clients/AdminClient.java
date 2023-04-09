@@ -5,11 +5,6 @@ package clients;
 import configs.Configs;
 import frontend.DMS_CORBA.ServerObjectInterface;
 import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.util.Properties;
-import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
@@ -18,6 +13,12 @@ import org.omg.CosNaming.NamingContextExtHelper;
 import util.Enums.ServerEnum;
 import util.Enums.SlotEnum;
 import util.booking.Movie;
+
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.util.Properties;
+import java.util.Scanner;
 
 //client program
 public class AdminClient {
@@ -155,6 +156,7 @@ public class AdminClient {
             date
           );
           String response = admin.addMovieSlots(
+                  userName,
             movie.getMovieId(),
             movieName,
             bookingCapacity
@@ -181,7 +183,7 @@ public class AdminClient {
             SlotEnum.valueOf(slot),
             date
           );
-          String response = admin.removeMovieSlots(
+          String response = admin.removeMovieSlots(userName,
             movie.getMovieId(),
             movieName
           );
@@ -194,7 +196,7 @@ public class AdminClient {
         {
           System.out.println("Please enter movieName: ");
           String movieName = sc.nextLine().trim();
-          String response = admin.listMovieShowsAvailability(movieName);
+          String response = admin.listMovieShowsAvailability(userName,movieName);
           if (response.equals(movieName + ":")) {
             response = "No data found";
           }

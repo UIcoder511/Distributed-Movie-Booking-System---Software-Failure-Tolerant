@@ -194,13 +194,15 @@ public class RM1 {
         String MessageType = parts[2];
         String Function = parts[3];
         String userID = parts[4];
-        String newEventID = parts[5];
-        String newEventType = parts[6];
-        String oldEventID = parts[7];
-        String oldEventType = parts[8];
-        int bookingCapacity = Integer.parseInt(parts[9]);
-        int numberOfTickets = Integer.parseInt(parts[10]);
-        Message message = new Message(sequenceId, FrontIpAddress, MessageType, Function, userID, newEventID, newEventType, oldEventID, oldEventType, bookingCapacity,numberOfTickets);
+        String newMovieID = parts[5];
+        String newMovieName = parts[6];
+
+        int bookingCapacity = Integer.parseInt(parts[7].equalsIgnoreCase("null")?"0":parts[7]);
+        String oldMovieID= parts[8];
+        String oldMovieName = parts[9];
+        int numberOfTickets = Integer.parseInt(parts[10].equalsIgnoreCase("null")?"0":parts[10]);
+
+        Message message = new Message(sequenceId, FrontIpAddress, MessageType, Function, userID, newMovieID, newMovieName, oldMovieID, oldMovieName, bookingCapacity,numberOfTickets);
         return message;
     }
 

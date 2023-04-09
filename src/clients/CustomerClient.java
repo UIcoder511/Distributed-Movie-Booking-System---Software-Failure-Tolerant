@@ -5,17 +5,18 @@ package clients;
 import configs.Configs;
 import frontend.DMS_CORBA.ServerObjectInterface;
 import frontend.DMS_CORBA.ServerObjectInterfaceHelper;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-import utils.Movie;
-import utils.ServerEnum;
-import utils.SlotEnum;
+import util.Enums.ServerEnum;
+import util.Enums.SlotEnum;
+import util.booking.Movie;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CustomerClient {
 
