@@ -9,7 +9,7 @@ import util.Enums.ServerEnum;
 import util.Enums.SlotEnum;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import util.booking.BookingUtility;
+import Replica1.util.booking.BookingUtility;
 import Replica1.util.UDPCommunication;
 
 import java.rmi.RemoteException;
@@ -69,12 +69,7 @@ public abstract class User extends UnicastRemoteObject implements MovieTicketBoo
         //based on customerID, implement udp to call that server for ticket booking
         String movieTheatreLocationForBooking = ServerEnum.getEnumNameForValue(movieID.substring(0, 3)).toLowerCase();
         String customerLocation = ServerEnum.getEnumNameForValue(customerID.substring(0, 3)).toLowerCase();
-if(!movieDb.movieTicketBookingRecords.containsKey(movieName)){
-return  movieName + " is not avaialble in the current theatre.";
-}
-        if(!movieDb.movieTicketBookingRecords.get(movieName).containsKey(movieID)){
-            return movieID + " movie slot is not available in the current theatre.";
-        }
+
         //check if movie already booked at any location.
         if(!checkMovieBookingAtAllLocations(customerID,movieID,movieName).equals("Movie not booked at any location"))
         {
@@ -504,7 +499,7 @@ return  movieName + " is not avaialble in the current theatre.";
     }
 
     @Override
-    public boolean validateUser(String username, String password) throws RemoteException {
+    public synchronized boolean validateUser(String username, String password) throws RemoteException {
         return loginDb.verifyUser(username, password);
     }
 

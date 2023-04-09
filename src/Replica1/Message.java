@@ -1,9 +1,53 @@
 package Replica1;
 
 public class Message {
+	public void setFrontEndIpAddress(String frontEndIpAddress) {
+		FrontEndIpAddress = frontEndIpAddress;
+	}
+
+	public void setMethodCalled(String methodCalled) {
+		MethodCalled = methodCalled;
+	}
+
+	public void setMessageType(String messageType) {
+		MessageType = messageType;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public void setNewMovieId(String newMovieId) {
+		this.newMovieId = newMovieId;
+	}
+
+	public void setNewMovieName(String newMovieName) {
+		this.newMovieName = newMovieName;
+	}
+
+	public void setOldMovieId(String oldMovieId) {
+		this.oldMovieId = oldMovieId;
+	}
+
+	public void setOldMovieName(String oldMovieName) {
+		this.oldMovieName = oldMovieName;
+	}
+
+	public void setBookingCapacity(int bookingCapacity) {
+		this.bookingCapacity = bookingCapacity;
+	}
+
+	public void setNumberOfTickets(int numberOfTickets) {
+		this.numberOfTickets = numberOfTickets;
+	}
+
+	public void setSequenceId(int sequenceId) {
+		this.sequenceId = sequenceId;
+	}
+
 	public String FrontEndIpAddress,MethodCalled , MessageType, userID, newMovieId, newMovieName, oldMovieId, oldMovieName;
 	public int bookingCapacity, numberOfTickets, sequenceId;
-		  
+		  public Message(){}
 	public Message(int sequenceId, String FrontEndIpAddress, String MessageType, String MethodCalled, String userID, String newMovieId,
                    String newMovieName, String oldMovieId, String oldMovieName, int bookingCapacity,int numberOfTickets)
 	{ 
@@ -13,25 +57,12 @@ public class Message {
 		this.MethodCalled = MethodCalled;
 		this.userID = userID; 
 		this.newMovieId = newMovieId;
-		System.out.println("Movie id in message sent: " + this.newMovieId);
 		this.newMovieName = newMovieName;
 		this.oldMovieId = oldMovieId;
 		this.oldMovieName = oldMovieName;
 		this.bookingCapacity = bookingCapacity;
 		this.numberOfTickets = numberOfTickets;
 	}
-
-	//	return 0 getSequenceNumber() + ";" +
-//1	getFeIpAddress().toUpperCase() + ";" +
-//2	getMessageType().toUpperCase() + ";" +
-//3	getFunction().toUpperCase() + ";" +
-//4	getClientID().toUpperCase() + ";" +
-//5	getMovieID().toUpperCase() + ";" +
-//6	getMovieName().toUpperCase() + ";" +
-//7	getBookingCapacity() + ";" +
-//8	getOldMovieID().toUpperCase() + ";" +
-//9	getOldMovieName().toUpperCase() + ";" +
-//10	getNumberOfTickets() ;
     @Override
     public String toString() {
 		return sequenceId + ";" + FrontEndIpAddress + ";" +MessageType + ";" +MethodCalled + ";" +userID + ";" +newMovieId +
